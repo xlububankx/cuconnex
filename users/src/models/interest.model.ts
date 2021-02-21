@@ -1,6 +1,7 @@
 import { Model, DataTypes, Sequelize } from 'sequelize'
 import { InterestDescription } from '@cuconnex/common'
 import { User } from './user.model';
+import sequelize from 'sequelize';
 
 
 // all atributes interest model has 
@@ -23,29 +24,43 @@ class Interest extends Model<InterestAttrs, InterestCreationAttrs>  {
 }
 
 
-const initInterests = (sequelize: Sequelize) => {
-    Interest.init({
-        userId: {
-            type: DataTypes.STRING(10),
-            primaryKey: true,
-            references: { model: User.tableName }
-        },
-        description: {
-            type: DataTypes.ENUM,
-            values: Object.values(InterestDescription),
-            unique: true,
-            primaryKey: true,
+// const initInterests = (sequelize: Sequelize) => {
+//     Interest.init({
+//         userId: {
+//             type: DataTypes.STRING(10),
+//             primaryKey: true,
+//             references: { model: User.tableName }
+//         },
+//         description: {
+//             type: DataTypes.ENUM,
+//             values: Object.values(InterestDescription),
+//             unique: true,
+//             primaryKey: true,
 
-        }
+//         }
+//     },
+//         {
+//             tableName: "interests",
+//             sequelize
+//         }
+//     );
+//     return Interest;
+// }
+
+const initInterests = (sequelize: Sequelize) => sequelize.define<Interest, InterestAttrs>('interests', {
+    userId: {
+        type: DataTypes.STRING(10),
+        primaryKey: true,
+        references: { model: User.tableName }
     },
-        {
-            tableName: "interests",
-            sequelize
-        }
-    );
-    return Interest;
-}
+    description: {
+        type: DataTypes.ENUM,
+        values: Object.values(InterestDescription),
+        unique: true,
+        primaryKey: true,
 
+    }
+})
 
 export { Interest, initInterests };
 

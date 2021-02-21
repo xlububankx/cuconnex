@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator'
 import { InterestDescription, validateRequest } from '@cuconnex/common'
-import { User } from '../models/user.model';
+import { db } from '../db'
 import { NotAuthorizedError, BadRequestError, requireAuth } from '@cuconnex/common'
 
 
@@ -31,9 +31,9 @@ router.post('/api/users', requireAuth, bodyChecker, validateRequest, async (req:
 
 
     // Make sure that user does not exist
-    let user = await User.findOne({ where: { id: req.currentUser!.id } });
+    let user = await db.User.findOne({ where: { id: req.currentUser!.id } });
     if (user) {
-        throw new BadRequestError('User already existed');
+        throw new BadRequestError('db.User already existed');
     }
 
     // remove duplicate interests from an array of interests
@@ -42,7 +42,7 @@ router.post('/api/users', requireAuth, bodyChecker, validateRequest, async (req:
     let createSuccess;
 
     try {
-        user = await User.create({ id: req.currentUser!.id, name: req.currentUser!.username });
+        user = await db.User.create({ id: req.currentUser!.id, name: req.currentUser!.username });
         await user.createInterestsFromArray(uniqueInterests);
         createSuccess = true;
 
