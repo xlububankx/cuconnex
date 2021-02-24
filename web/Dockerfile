@@ -1,7 +1,7 @@
 # build environment
 FROM node:alpine as react-build
-WORKDIR /app
-COPY . ./
+WORKDIR /web/app
+COPY /web /web/app
 RUN yarn
 RUN yarn build
 
