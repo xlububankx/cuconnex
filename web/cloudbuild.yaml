@@ -27,4 +27,20 @@ steps:
   args:
   - 'push'
   - 'gcr.io/$PROJECT_ID/web:$SHORT_SHA'
+
+# Deploy container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args:
+  - 'run'
+  - 'deploy'
+  - 'web'
+  - '--image'
+  - 'gcr.io/$PROJECT_ID/web:$COMMIT_SHA'
+  - '--region'
+  - 'asia-southeast1'
+  - '--platform'
+  - 'managed'
+images:
+- 'gcr.io/$PROJECT_ID/web:$COMMIT_SHA'
 # [END cloudbuild]
