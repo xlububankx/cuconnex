@@ -37,11 +37,11 @@ steps:
   - 'deploy'
   - 'web'
   - '--image'
-  - 'gcr.io/$PROJECT_ID/web:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/web:$SHORT_SHA'
   - '--region'
   - 'asia-southeast1'
   - '--platform'
   - 'managed'
 images:
-- 'gcr.io/$PROJECT_ID/web:$COMMIT_SHA'
+- 'gcr.io/$PROJECT_ID/web:$SHORT_SHA'
 # [END cloudbuild]
