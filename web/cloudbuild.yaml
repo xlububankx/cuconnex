@@ -3,8 +3,9 @@ steps:
 # This step runs the unit tests on the app
 - name: 'node'
   id: Test
-  entrypoint: npm
+  entrypoint: /bin/sh
   args:
+  - -c
   - 'cd web && npm install && npm run test:ci'
 
 # This step builds the container image.
